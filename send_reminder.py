@@ -1,57 +1,21 @@
-import json
-import requests
 import os
-import random
-from datetime import datetime
+import requests
 
-# 🔐 Load secrets from GitHub Actions
+# Load secrets from environment (GitHub Actions)
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-# 🧠 Motivational Quotes
-quotes = [
-    "Keep going — you're building something powerful 💪",
-    "You’re not behind — you’re becoming 🔐",
-    "Every day of effort brings you closer 🔍",
-    "Stay consistent — greatness compounds 🛡",
-    "You’ve got what it takes, stay locked in 🚀"
-]
-quote = random.choice(quotes)
+# Just test sending a basic message
+message = "✅ Telegram bot test from GitHub Action successful!"
 
-# 📖 Load Progress
-with open("progress.json", "r") as f:
-    progress = json.load(f)
-current_day = progress["current_day"]
-
-# 🗂 Load Roadmap
-with open("roadmap.json", "r") as f:
-    roadmap = json.load(f)["days"]
-
-# 📩 Build Message
-if current_day > len(roadmap):
-    message = "🎉 You’ve completed the 12-week penetration testing roadmap!"
-else:
-    day = roadmap[current_day - 1]
-    message = f"""🛡️ *{day['title']}*
-
-📝 Task: {day['task']}
-📺 [Watch Video]({day['video']})
-🧪 [Try Lab]({day['lab']})
-
-📅 {day['date']} | Day {current_day}/84
-✨ _{quote}_"""
-
-# 📤 Send to Telegram
+# Send message
 url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
 payload = {
     "chat_id": CHAT_ID,
-    "text": message,
-    "parse_mode": "Markdown"
+    "text": message
 }
-requests.post(url, json=payload)
+response = requests.post(url, json=payload)
 
-# 🔁 Update Progress
-if current_day <= len(roadmap):
-    progress["current_day"] += 1
-    with open("progress.json", "w") as f:
-        json.dump(progress, f)
+# Log response for debugging
+print("Status Code:", response.status_code)
+print("Response:", response.text)
