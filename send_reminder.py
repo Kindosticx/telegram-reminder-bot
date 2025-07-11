@@ -8,9 +8,6 @@ from datetime import datetime
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-print("Token:", TELEGRAM_TOKEN)
-print("Chat ID:", CHAT_ID)
-
 # Motivational quotes
 quotes = [
     "Keep going — you're building something powerful 💪",
