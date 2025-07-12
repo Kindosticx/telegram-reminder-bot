@@ -8,7 +8,7 @@ from datetime import datetime
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-# 🧪 Debug prints — remove later when confirmed working
+# 🧪 Debug prints
 print("Token:", TELEGRAM_TOKEN)
 print("Chat ID:", CHAT_ID)
 
@@ -27,7 +27,7 @@ with open("progress.json", "r") as f:
     progress = json.load(f)
 current_day = progress["current_day"]
 
-# 📅 Load 12-week roadmap
+# 📅 Load roadmap
 with open("roadmap.json", "r") as f:
     roadmap = json.load(f)["days"]
 
@@ -54,11 +54,11 @@ payload = {
 }
 response = requests.post(url, json=payload)
 
-# 🧪 Print Telegram response for debugging
+# 🧪 Debug response
 print("Status Code:", response.status_code)
 print("Response:", response.text)
 
-# 🔁 Update Progress
+# 🔁 Update progress
 if current_day <= len(roadmap):
     progress["current_day"] += 1
     with open("progress.json", "w") as f:
